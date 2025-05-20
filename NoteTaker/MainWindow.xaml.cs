@@ -38,7 +38,8 @@ public partial class MainWindow : Window
 
     private void NewWindowCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        textEditor.Text = "";
+        MainWindow newWindow = new MainWindow();
+        newWindow.Show();
     }
 
     private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

@@ -12,7 +12,7 @@ namespace NoteTaker
         // NEW WINDOW Command
         public static readonly RoutedUICommand NewWindow = new RoutedUICommand
            (
-               "NewWindow",
+               "New Window",
                "NewWindow",
                typeof(CustomCommands),
                new InputGestureCollection()
