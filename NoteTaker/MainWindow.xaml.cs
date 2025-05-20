@@ -60,7 +60,15 @@ public partial class MainWindow : Window
 
     private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-       
+       OpenFileDialog openFileDialog = new OpenFileDialog();
+        if (openFileDialog.ShowDialog() == true)
+        {
+            textEditor.Text = File.ReadAllText(openFileDialog.FileName);
+            FilePath = openFileDialog.FileName;
+            FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
+            SavedText = textEditor.Text;
+            Title = FileName + " - NoteTaker";
+        }
     }
 
     private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
