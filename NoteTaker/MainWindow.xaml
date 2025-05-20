@@ -33,7 +33,29 @@
                 <MenuItem Command="SelectAll" />
             </MenuItem>
         </Menu>
-        <TextBox Name="textEditor" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem>
+                <TextBlock Name="cursorPosition" Text="Line 1, Column 1" />
+            </StatusBarItem>
+            <Separator Grid.Column="1" />
+            <StatusBarItem Grid.Column="2">
+                <TextBlock Name="charCount" Text="Characters: 0" />
+            </StatusBarItem>
+            <Separator Grid.Column="3" />
+        </StatusBar>
+        <TextBox Name="textEditor" AcceptsReturn="True" SelectionChanged="textEditor_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TextBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Command="Undo" />

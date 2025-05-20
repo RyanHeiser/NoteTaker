@@ -21,6 +21,9 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+
+    // File Menu Commands
+
     private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
         e.CanExecute = true;
@@ -50,6 +53,22 @@ public partial class MainWindow : Window
     private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         this.Close();
+    }
+
+
+    /* Event Handlers */
+
+    // Updates StatusBar when changes are made to the text editor
+    private void textEditor_SelectionChanged(object sender, RoutedEventArgs e)
+    {
+        int row = textEditor.GetLineIndexFromCharacterIndex(textEditor.CaretIndex);
+        int col = textEditor.CaretIndex - textEditor.GetCharacterIndexFromLineIndex(row);
+        cursorPosition.Text = "Line " + (row + 1) + ", Column " + (col + 1);
+
+        // charCount = char index at beginning of last line + length of last line - (lineCount - 1) * 2
+        // subtracting the line count removes new line characters from the character count
+        charCount.Text = "Characters: " + (textEditor.GetCharacterIndexFromLineIndex(textEditor.LineCount - 1) 
+            + textEditor.GetLineLength(textEditor.LineCount - 1) - (textEditor.LineCount - 1) * 2);
     }
 
 }
