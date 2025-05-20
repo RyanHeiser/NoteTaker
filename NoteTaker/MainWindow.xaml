@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NoteTaker"
         mc:Ignorable="d"
         Closing="Window_Closing"
-        Title="Untitled - NoteTaker" Height="450" Width="800">
+        Title="Untitled - NoteTaker" Height="550" Width="1000">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.NewWindow" CanExecute="NewWindowCommand_CanExecute" Executed="NewWindowCommand_Executed" />

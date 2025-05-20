@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,15 +22,13 @@ public partial class MainWindow : Window
 {
 
     String FilePath = "";
-    String SavedText = "";
-    String FileName = "*.txt";
+    String FileName = "Untitled";
     Boolean Saved = false;
 
     public MainWindow()
     {
         InitializeComponent();
     }
-
 
     /* COMMANDS */
 
@@ -42,7 +41,18 @@ public partial class MainWindow : Window
 
     private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
+        if (!Saved && !(FilePath == "" && textEditor.Text == ""))
+        {
+            if (!UnsavedPrompt())
+            {
+                e.Handled = true;
+                return;
+            }
+        }
         textEditor.Text = "";
+        Title = "Untitled - NoteTaker";
+        FilePath = "";
+        Saved = false;
     }
 
     private void NewWindowCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -62,6 +72,16 @@ public partial class MainWindow : Window
 
     private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
+        if (!Saved && !(FilePath == "" && textEditor.Text == ""))
+        {
+            if(!UnsavedPrompt())
+            {
+                e.Handled = true;
+                return;
+            }
+        }
+
+
         OpenFileDialog openFileDialog = new OpenFileDialog();
         openFileDialog.Filter = "Text files (*txt)|*txt|All files (*.*)|*.*";
         if (openFileDialog.ShowDialog() == true)
@@ -81,14 +101,7 @@ public partial class MainWindow : Window
 
     private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        if (FilePath.Equals(""))
-        {
-            SaveAsCommand_Executed(sender, e);
-        }
-        else
-        {
-            WriteToFile(FilePath);
-        }
+        Save();
     }
 
     private void SaveAsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -98,18 +111,7 @@ public partial class MainWindow : Window
 
     private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        SaveFileDialog saveFileDialog = new SaveFileDialog();
-        saveFileDialog.Filter = "Text file (*.txt)|*txt|All files (*.*)|*.*";
-        saveFileDialog.DefaultExt = "txt";
-        saveFileDialog.AddExtension = true;
-        saveFileDialog.FileName = this.FileName;
-        if (saveFileDialog.ShowDialog() == true)
-        {
-            FilePath = saveFileDialog.FileName;
-            FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
-            WriteToFile(FilePath);
-            Title = FileName + " - NoteTaker";
-        }
+        SaveAs();
     }
 
     private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -119,7 +121,7 @@ public partial class MainWindow : Window
 
     private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        this.Close();
+        Close();
     }
 
     // Format Menu Commands
@@ -166,15 +168,68 @@ public partial class MainWindow : Window
     // Handles window closing
     private void Window_Closing(object sender, CancelEventArgs e)
     {
-
+        if (!Saved && !(FilePath == "" && textEditor.Text == ""))
+        {
+            if(!UnsavedPrompt())
+            {
+                e.Cancel = true;
+            }
+        }
     }
 
 
     /* UTILITY */
 
+    private void Save()
+    {
+        if (FilePath.Equals(""))
+        {
+            SaveAs();
+        }
+        else
+        {
+            WriteToFile();
+        }
+    }
+
+    private void SaveAs()
+    {
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "Text file (*.txt)|*txt|All files (*.*)|*.*";
+        saveFileDialog.DefaultExt = "txt";
+        saveFileDialog.AddExtension = true;
+
+        if (FilePath == "")
+        {
+            saveFileDialog.FileName = "*.txt";
+        }
+        else
+        {
+            saveFileDialog.FileName = this.FileName;
+        }
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            FilePath = saveFileDialog.FileName;
+            FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
+            WriteToFile();
+            Title = FileName + " - NoteTaker";
+        }
+    }
+
+    // Creates dialog asking if the user wants to save their changes
+    // Returns true if the user doesn't cancel
     private Boolean UnsavedPrompt()
     {
-        return true;
+        UnsavedDialog unsavedDialog = new UnsavedDialog(FileName);
+        if (unsavedDialog.ShowDialog() == true)
+        {
+            if (unsavedDialog.Save)
+                Save();
+
+            return !unsavedDialog.Cancel;
+        }
+        return false;
     }
 
     private void UpdateTitleSavedIndicator()
@@ -190,9 +245,9 @@ public partial class MainWindow : Window
         }
     }
 
-    private void WriteToFile(string filePath)
+    private void WriteToFile()
     {
-        File.WriteAllText(filePath, textEditor.Text);
+        File.WriteAllText(FilePath, textEditor.Text);
         Saved = true;
         UpdateTitleSavedIndicator();
     }
