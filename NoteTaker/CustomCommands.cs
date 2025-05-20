@@ -53,5 +53,29 @@ namespace NoteTaker
                typeof(CustomCommands)
            );
 
+        // ZOOM IN Command
+        public static readonly RoutedUICommand ZoomIn = new RoutedUICommand
+           (
+               "Zoom In",
+               "ZoomIn",
+               typeof(CustomCommands),
+               new InputGestureCollection()
+               {
+                    new KeyGesture(Key.OemPlus, ModifierKeys.Control, "Ctrl+Plus")
+               }
+           );
+
+        // ZOOM OUT Command
+        public static readonly RoutedUICommand ZoomOut = new RoutedUICommand
+           (
+               "Zoom Out",
+               "ZoomOut",
+               typeof(CustomCommands),
+               new InputGestureCollection()
+               {
+                    new KeyGesture(Key.OemMinus, ModifierKeys.Control, "Ctrl+Minus")
+               }
+           );
+
     }
 }

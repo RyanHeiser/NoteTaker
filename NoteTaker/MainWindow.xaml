@@ -15,6 +15,8 @@
         <CommandBinding Command="local:CustomCommands.SaveAs" CanExecute="SaveAsCommand_CanExecute" Executed="SaveAsCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.TextWrapping" CanExecute="TextWrappingCommand_CanExecute" Executed="TextWrappingCommand_Executed" />
+        <CommandBinding Command="local:CustomCommands.ZoomIn" CanExecute="ZoomInCommand_CanExecute" Executed="ZoomInCommand_Executed" />
+        <CommandBinding Command="local:CustomCommands.ZoomOut" CanExecute="ZoomOutCommand_CanExecute" Executed="ZoomOutCommand_Executed" />
     </Window.CommandBindings>
     <DockPanel Margin="10">
         <Menu DockPanel.Dock="Top">
@@ -39,6 +41,10 @@
             </MenuItem>
             <MenuItem Header="_Format">
                 <MenuItem Command="local:CustomCommands.TextWrapping" IsCheckable="True" />
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Command="local:CustomCommands.ZoomIn" />
+                <MenuItem Command="local:CustomCommands.ZoomOut" />
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">

@@ -144,6 +144,29 @@ public partial class MainWindow : Window
         }
     }
 
+    // View Menu Commands
+
+    private void ZoomInCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void ZoomInCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        textEditor.Text += "zoomin";
+    }
+
+    private void ZoomOutCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void ZoomOutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        textEditor.Text += "zoomout";
+    }
+
+
     /* OTHER EVENT HANDLERS */
 
     // Updates StatusBar when changes are made to the text editor
