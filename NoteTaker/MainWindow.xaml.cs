@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     String FilePath = "";
     String SavedText = "";
     String FileName = "*.txt";
+    Boolean Saved = false;
 
     public MainWindow()
     {
@@ -66,7 +67,7 @@ public partial class MainWindow : Window
             textEditor.Text = File.ReadAllText(openFileDialog.FileName);
             FilePath = openFileDialog.FileName;
             FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
-            SavedText = textEditor.Text;
+            Saved = true;
             Title = FileName + " - NoteTaker";
         }
     }
@@ -141,7 +142,6 @@ public partial class MainWindow : Window
     /* OTHER EVENT HANDLERS */
 
     // Updates StatusBar when changes are made to the text editor
-    // Also updates window title to represent if changes have been saved
     private void TextEditor_SelectionChanged(object sender, RoutedEventArgs e)
     {
         int row = textEditor.GetLineIndexFromCharacterIndex(textEditor.CaretIndex);
@@ -152,7 +152,12 @@ public partial class MainWindow : Window
         // subtracting the line count removes new line characters from the character count
         charCount.Text = "Characters: " + (textEditor.GetCharacterIndexFromLineIndex(textEditor.LineCount - 1) 
             + textEditor.GetLineLength(textEditor.LineCount - 1) - (textEditor.LineCount - 1) * 2);
+    }
 
+    // Updates window title to represent if changes have been saved
+    private void TextEditor_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        Saved = false;
         UpdateTitleSavedIndicator();
     }
 
@@ -162,11 +167,11 @@ public partial class MainWindow : Window
 
     private void UpdateTitleSavedIndicator()
     {
-        if (Title[0] == '*' && textEditor.Text == SavedText)
+        if (Title[0] == '*' && (Saved || (FilePath == "" && textEditor.Text.Length == 0)))
         {
             Title = Title.Substring(1);
         }
-        else if (Title[0] != '*' && textEditor.Text != SavedText)
+        else if (Title[0] != '*' && !Saved)
         {
             Title = "*" + Title;
         }
@@ -175,7 +180,7 @@ public partial class MainWindow : Window
     private void WriteToFile(string filePath)
     {
         File.WriteAllText(filePath, textEditor.Text);
-        SavedText = textEditor.Text;
+        Saved = true;
         UpdateTitleSavedIndicator();
     }
 }

@@ -65,6 +65,7 @@
         <TextBox Name="textEditor" 
                  AcceptsReturn="True" 
                  SelectionChanged="TextEditor_SelectionChanged" 
+                 TextChanged="TextEditor_TextChanged"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                  ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TextBox.ContextMenu>
