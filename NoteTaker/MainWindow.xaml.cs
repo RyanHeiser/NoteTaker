@@ -20,14 +20,20 @@ namespace NoteTaker;
 /// </summary>
 public partial class MainWindow : Window
 {
+    const double ZoomFactor = 1.0;
+    const double MinActualFontSize = 3.0;
+    const double ZoomChange = 0.1;
 
     String FilePath = "";
     String FileName = "Untitled";
     Boolean Saved = false;
+    private double fontSize;
+    private double zoom = 1.0;
 
     public MainWindow()
     {
         InitializeComponent();
+        this.fontSize = textEditor.FontSize;
     }
 
     /* COMMANDS */
@@ -153,17 +159,27 @@ public partial class MainWindow : Window
 
     private void ZoomInCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        textEditor.Text += "zoomin";
+        Zoom(zoom + ZoomChange);
     }
 
     private void ZoomOutCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = true;
+        e.CanExecute = textEditor.FontSize >= MinActualFontSize;
     }
 
     private void ZoomOutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        textEditor.Text += "zoomout";
+        Zoom(zoom - ZoomChange);
+    }
+
+    private void DefaultZoomCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void DefaultZoomCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        Zoom(1.0);
     }
 
 
@@ -203,6 +219,16 @@ public partial class MainWindow : Window
 
 
     /* UTILITY */
+
+    private void Zoom(double zoom)
+    {
+        if (textEditor.FontSize > MinActualFontSize || zoom > this.zoom)
+        {
+            textEditor.FontSize = fontSize * zoom;
+            this.zoom = zoom;
+        }
+        
+    }
 
     private void Save()
     {

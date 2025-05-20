@@ -77,5 +77,17 @@ namespace NoteTaker
                }
            );
 
+        // DEFAULT ZOOM Command
+        public static readonly RoutedUICommand DefaultZoom = new RoutedUICommand
+           (
+               "Default Zoom",
+               "DefaultZoom",
+               typeof(CustomCommands),
+               new InputGestureCollection()
+               {
+                    new KeyGesture(Key.D0, ModifierKeys.Control)
+               }
+           );
+
     }
 }
