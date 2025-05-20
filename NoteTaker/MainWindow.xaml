@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteTaker"
         mc:Ignorable="d"
+        Closing="Window_Closing"
         Title="Untitled - NoteTaker" Height="450" Width="800">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />

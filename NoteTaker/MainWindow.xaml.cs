@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -61,7 +62,8 @@ public partial class MainWindow : Window
 
     private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-       OpenFileDialog openFileDialog = new OpenFileDialog();
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+        openFileDialog.Filter = "Text files (*txt)|*txt|All files (*.*)|*.*";
         if (openFileDialog.ShowDialog() == true)
         {
             textEditor.Text = File.ReadAllText(openFileDialog.FileName);
@@ -161,12 +163,23 @@ public partial class MainWindow : Window
         UpdateTitleSavedIndicator();
     }
 
+    // Handles window closing
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+
+    }
+
 
     /* UTILITY */
 
+    private Boolean UnsavedPrompt()
+    {
+        return true;
+    }
 
     private void UpdateTitleSavedIndicator()
     {
+        // removes unsaved indicator if file is saved or there is no save location and the text editor is empty
         if (Title[0] == '*' && (Saved || (FilePath == "" && textEditor.Text.Length == 0)))
         {
             Title = Title.Substring(1);
