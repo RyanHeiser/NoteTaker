@@ -64,6 +64,7 @@ public partial class MainWindow : Window
     {
         MainWindow newWindow = new MainWindow();
         newWindow.Show();
+        newWindow.textEditor.Focus();
     }
     private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {

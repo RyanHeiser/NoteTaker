@@ -64,6 +64,7 @@
             <Separator Grid.Column="3" />
         </StatusBar>
         <TextBox Name="textEditor" 
+                 FontSize="14"
                  AcceptsReturn="True" 
                  SelectionChanged="TextEditor_SelectionChanged" 
                  TextChanged="TextEditor_TextChanged"
