@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Win32;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,6 +18,11 @@ namespace NoteTaker;
 /// </summary>
 public partial class MainWindow : Window
 {
+
+    String FilePath = "";
+    String SavedText = "";
+    String FileName = "*.txt";
+
     public MainWindow()
     {
         InitializeComponent();
@@ -63,7 +70,14 @@ public partial class MainWindow : Window
 
     private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        
+        if (FilePath.Equals(""))
+        {
+            SaveAsCommand_Executed(sender, e);
+        }
+        else
+        {
+            WriteToFile(FilePath);
+        }
     }
 
     private void SaveAsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -73,7 +87,18 @@ public partial class MainWindow : Window
 
     private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        
+        SaveFileDialog saveFileDialog = new SaveFileDialog();
+        saveFileDialog.Filter = "Text file (*.txt)|*txt|All files (*.*)|*.*";
+        saveFileDialog.DefaultExt = "txt";
+        saveFileDialog.AddExtension = true;
+        saveFileDialog.FileName = this.FileName;
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            FilePath = saveFileDialog.FileName;
+            FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
+            WriteToFile(FilePath);
+            Title = FileName + " - NoteTaker";
+        }
     }
 
     private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -108,7 +133,8 @@ public partial class MainWindow : Window
     /* OTHER EVENT HANDLERS */
 
     // Updates StatusBar when changes are made to the text editor
-    private void textEditor_SelectionChanged(object sender, RoutedEventArgs e)
+    // Also updates window title to represent if changes have been saved
+    private void TextEditor_SelectionChanged(object sender, RoutedEventArgs e)
     {
         int row = textEditor.GetLineIndexFromCharacterIndex(textEditor.CaretIndex);
         int col = textEditor.CaretIndex - textEditor.GetCharacterIndexFromLineIndex(row);
@@ -118,7 +144,31 @@ public partial class MainWindow : Window
         // subtracting the line count removes new line characters from the character count
         charCount.Text = "Characters: " + (textEditor.GetCharacterIndexFromLineIndex(textEditor.LineCount - 1) 
             + textEditor.GetLineLength(textEditor.LineCount - 1) - (textEditor.LineCount - 1) * 2);
+
+        UpdateTitleSavedIndicator();
     }
 
+
+    /* UTILITY */
+
+
+    private void UpdateTitleSavedIndicator()
+    {
+        if (Title[0] == '*' && textEditor.Text == SavedText)
+        {
+            Title = Title.Substring(1);
+        }
+        else if (Title[0] != '*' && textEditor.Text != SavedText)
+        {
+            Title = "*" + Title;
+        }
+    }
+
+    private void WriteToFile(string filePath)
+    {
+        File.WriteAllText(filePath, textEditor.Text);
+        SavedText = textEditor.Text;
+        UpdateTitleSavedIndicator();
+    }
 }
 
