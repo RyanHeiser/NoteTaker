@@ -6,17 +6,26 @@
         xmlns:local="clr-namespace:NoteTaker"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
+        <CommandBinding Command="local:CustomCommands.NewWindow" CanExecute="NewWindowCommand_CanExecute" Executed="NewWindowCommand_Executed" />
+        <CommandBinding Command="local:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
+    </Window.CommandBindings>
     <DockPanel Margin="10">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Command="New" />
+                <MenuItem Command="ApplicationCommands.New" />
+                <MenuItem Command="local:CustomCommands.NewWindow" />
                 <MenuItem Header="Open" />
                 <MenuItem Header="Save" />
                 <MenuItem Header="Save As" />
                 <Separator />
-                <MenuItem Header="_Exit" Click="exit_Click" />
+                <MenuItem Command="local:CustomCommands.Exit" />
             </MenuItem>
             <MenuItem Header="_Edit">
+                <MenuItem Command="Undo" />
+                <MenuItem Command="Redo" />
+                <Separator />
                 <MenuItem Command="Cut" />
                 <MenuItem Command="Copy" />
                 <MenuItem Command="Paste" />

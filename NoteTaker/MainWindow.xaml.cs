@@ -31,8 +31,25 @@ public partial class MainWindow : Window
         textEditor.Text = "";
     }
 
-    private void exit_Click(object sender, RoutedEventArgs e)
+    private void NewWindowCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void NewWindowCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        textEditor.Text = "";
+    }
+
+    private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         this.Close();
     }
+
 }
+
