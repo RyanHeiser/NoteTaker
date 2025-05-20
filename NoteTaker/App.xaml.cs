@@ -14,6 +14,7 @@ public partial class App : Application
     {
         MainWindow wnd = new MainWindow();
         wnd.Show();
+        wnd.textEditor.Focus();
     }
 }
 

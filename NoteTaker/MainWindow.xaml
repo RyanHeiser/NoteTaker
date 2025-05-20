@@ -5,10 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NoteTaker"
         mc:Ignorable="d"
-        Title="Note Taker" Height="450" Width="800">
+        Title="NoteTaker" Height="450" Width="800">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.NewWindow" CanExecute="NewWindowCommand_CanExecute" Executed="NewWindowCommand_Executed" />
+        <CommandBinding Command="ApplicationCommands.Open" CanExecute="OpenCommand_CanExecute" Executed="OpenCommand_Executed" />
+        <CommandBinding Command="ApplicationCommands.Save" CanExecute="SaveCommand_CanExecute" Executed="SaveCommand_Executed" />
+        <CommandBinding Command="local:CustomCommands.SaveAs" CanExecute="SaveAsCommand_CanExecute" Executed="SaveAsCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.TextWrapping" CanExecute="TextWrappingCommand_CanExecute" Executed="TextWrappingCommand_Executed" />
     </Window.CommandBindings>
@@ -17,9 +20,9 @@
             <MenuItem Header="_File">
                 <MenuItem Command="ApplicationCommands.New" />
                 <MenuItem Command="local:CustomCommands.NewWindow" />
-                <MenuItem Header="Open" />
-                <MenuItem Header="Save" />
-                <MenuItem Header="Save As" />
+                <MenuItem Command="ApplicationCommands.Open" />
+                <MenuItem Command="ApplicationCommands.Save" />
+                <MenuItem Command="local:CustomCommands.SaveAs" />
                 <Separator />
                 <MenuItem Command="local:CustomCommands.Exit" />
             </MenuItem>
@@ -59,7 +62,11 @@
             </StatusBarItem>
             <Separator Grid.Column="3" />
         </StatusBar>
-        <TextBox Name="textEditor" AcceptsReturn="True" SelectionChanged="textEditor_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <TextBox Name="textEditor" 
+                 AcceptsReturn="True" 
+                 SelectionChanged="textEditor_SelectionChanged" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto" 
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
             <TextBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Command="Undo" />

@@ -21,6 +21,18 @@ namespace NoteTaker
                }
            );
 
+        // SAVE AS Command
+        public static readonly RoutedUICommand SaveAs = new RoutedUICommand
+            (
+                "Save As",
+                "SaveAs",
+                typeof(CustomCommands),
+                new InputGestureCollection()
+                {
+                    new KeyGesture(Key.S, ModifierKeys.Control | ModifierKeys.Shift)
+                }
+            );
+
         // EXIT Command
         public static readonly RoutedUICommand Exit = new RoutedUICommand
             (

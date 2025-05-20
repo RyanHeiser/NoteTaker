@@ -46,6 +46,35 @@ public partial class MainWindow : Window
         MainWindow newWindow = new MainWindow();
         newWindow.Show();
     }
+    private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+       
+    }
+
+    private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        
+    }
+
+    private void SaveAsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        
+    }
 
     private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
