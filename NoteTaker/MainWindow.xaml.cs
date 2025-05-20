@@ -22,6 +22,8 @@ public partial class MainWindow : Window
     }
 
 
+    /* COMMANDS */
+
     // File Menu Commands
 
     private void NewCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -55,8 +57,26 @@ public partial class MainWindow : Window
         this.Close();
     }
 
+    // Format Menu Commands
 
-    /* Event Handlers */
+    private void TextWrappingCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void TextWrappingCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (textEditor.TextWrapping == TextWrapping.Wrap)
+        {
+            textEditor.TextWrapping = TextWrapping.NoWrap;
+        } 
+        else
+        {
+            textEditor.TextWrapping = TextWrapping.Wrap;
+        }
+    }
+
+    /* OTHER EVENT HANDLERS */
 
     // Updates StatusBar when changes are made to the text editor
     private void textEditor_SelectionChanged(object sender, RoutedEventArgs e)

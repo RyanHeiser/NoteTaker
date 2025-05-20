@@ -33,7 +33,13 @@ namespace NoteTaker
                 }
             );
 
+        // TEXT WRAPPING Command
+        public static readonly RoutedUICommand TextWrapping = new RoutedUICommand
+           (
+               "Text Wrapping",
+               "TextWrapping",
+               typeof(CustomCommands)
+           );
 
-        
     }
 }

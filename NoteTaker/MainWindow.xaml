@@ -10,6 +10,7 @@
         <CommandBinding Command="ApplicationCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.NewWindow" CanExecute="NewWindowCommand_CanExecute" Executed="NewWindowCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
+        <CommandBinding Command="local:CustomCommands.TextWrapping" CanExecute="TextWrappingCommand_CanExecute" Executed="TextWrappingCommand_Executed" />
     </Window.CommandBindings>
     <DockPanel Margin="10">
         <Menu DockPanel.Dock="Top">
@@ -31,6 +32,9 @@
                 <MenuItem Command="Paste" />
                 <Separator />
                 <MenuItem Command="SelectAll" />
+            </MenuItem>
+            <MenuItem Header="_Format">
+                <MenuItem Command="local:CustomCommands.TextWrapping" IsCheckable="True" />
             </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
