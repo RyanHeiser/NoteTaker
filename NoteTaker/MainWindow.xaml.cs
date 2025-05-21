@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -33,7 +34,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
         this.fontSize = textEditor.FontSize;
+
+        zoomBox.ItemsSource = new List<string>() { "20%", "40%", "60%", "80%", "90%", "100%", "110%", "125%", "150%", "175%", "200%"};
     }
 
     /* COMMANDS */
@@ -160,6 +164,7 @@ public partial class MainWindow : Window
     private void ZoomInCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Zoom(zoom + ZoomChange);
+        zoomBox.Text = (int) (zoom * 100) + "%";
     }
 
     private void ZoomOutCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -170,6 +175,7 @@ public partial class MainWindow : Window
     private void ZoomOutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Zoom(zoom - ZoomChange);
+        zoomBox.Text = (int)(zoom * 100) + "%";
     }
 
     private void DefaultZoomCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -180,6 +186,7 @@ public partial class MainWindow : Window
     private void DefaultZoomCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         Zoom(1.0);
+        zoomBox.Text = (int)(zoom * 100) + "%";
     }
 
 
@@ -203,6 +210,35 @@ public partial class MainWindow : Window
     {
         Saved = false;
         UpdateTitleSavedIndicator();
+    }
+
+    //TODO Implement zoom ComboBox
+    private void ZoomBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        Debug.WriteLine("ZoomBox_TextChanged");
+
+        if (zoomBox.Text.Length == 0)
+        {
+            return;
+        }
+
+        string percent = zoomBox.Text.Replace("%", "");
+        if(double.TryParse(percent, out double zoomPercent)) {
+            Zoom(zoomPercent / 100D);
+        } 
+        else
+        {
+            zoomBox.Text = "";
+            //zoomBox.Text = (zoom * 100).ToString() + "%";
+        }
+    }
+
+    private void ZoomBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (!zoomBox.Text.Contains("%"))
+        {
+            zoomBox.Text += '%';
+        }
     }
 
     // Handles window closing
@@ -301,5 +337,6 @@ public partial class MainWindow : Window
         Saved = true;
         UpdateTitleSavedIndicator();
     }
+
 }
 

@@ -58,6 +58,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="150" />
                             <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
@@ -70,6 +72,12 @@
                 <TextBlock Name="charCount" Text="Characters: 0" />
             </StatusBarItem>
             <Separator Grid.Column="3" />
+            <StatusBarItem Grid.Column="4">
+                <TextBlock Text="Zoom" />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="5">
+                <ComboBox Name="zoomBox" Text="100%" Width="75" IsEditable="True" TextBoxBase.TextChanged="ZoomBox_TextChanged" LostFocus="ZoomBox_LostFocus" />
+            </StatusBarItem>
         </StatusBar>
         <TextBox Name="textEditor" 
                  FontSize="16"
