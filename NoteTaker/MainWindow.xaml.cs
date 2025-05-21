@@ -241,6 +241,14 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ZoomBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            textEditor.Focus();
+        }
+    }
+
     // Handles window closing
     private void Window_Closing(object sender, CancelEventArgs e)
     {
