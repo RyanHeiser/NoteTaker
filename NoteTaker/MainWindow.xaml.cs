@@ -22,8 +22,7 @@ namespace NoteTaker;
 /// </summary>
 public partial class MainWindow : Window
 {
-    const double ZoomFactor = 1.0;
-    const double MinActualFontSize = 3.0;
+    const double MinZoom = 0.05;
     const double ZoomChange = 0.1;
 
     String FilePath = "";
@@ -170,7 +169,7 @@ public partial class MainWindow : Window
 
     private void ZoomOutCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = textEditor.FontSize >= MinActualFontSize;
+        e.CanExecute = this.zoom - ZoomChange > MinZoom;
     }
 
     private void ZoomOutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -219,7 +218,7 @@ public partial class MainWindow : Window
         e.Handled = regex.IsMatch(e.Text);
     }
 
-    //TODO Implement zoom ComboBox
+    // Zooms using zoomBox text value
     private void ZoomBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         Debug.WriteLine("ZoomBox_TextChanged");
@@ -251,6 +250,7 @@ public partial class MainWindow : Window
     {
         if (e.Key == Key.Enter)
         {
+            zoomBox.Text = (zoom * 100).ToString() + "%";
             textEditor.Focus();
         }
     }
@@ -272,7 +272,7 @@ public partial class MainWindow : Window
 
     private void Zoom(double zoom)
     {
-        if (textEditor.FontSize > MinActualFontSize || zoom > this.zoom)
+        if (zoom > MinZoom)
         {
             textEditor.FontSize = fontSize * zoom;
             this.zoom = zoom;
