@@ -76,7 +76,7 @@
                 <TextBlock Text="Zoom" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="5">
-                <ComboBox Name="zoomBox" Text="100%" Width="75" IsEditable="True" TextBoxBase.TextChanged="ZoomBox_TextChanged" LostFocus="ZoomBox_LostFocus" KeyDown="ZoomBox_KeyDown" />
+                <ComboBox Name="zoomBox" Text="100%" Width="75" IsEditable="True" PreviewTextInput="ZoomBox_PreviewTextInput" TextBoxBase.TextChanged="ZoomBox_TextChanged" LostFocus="ZoomBox_LostFocus" KeyDown="ZoomBox_KeyDown" />
             </StatusBarItem>
         </StatusBar>
         <TextBox Name="textEditor" 

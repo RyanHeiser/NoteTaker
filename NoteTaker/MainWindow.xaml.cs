@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -212,6 +213,12 @@ public partial class MainWindow : Window
         UpdateTitleSavedIndicator();
     }
 
+    private void ZoomBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        Regex regex = new Regex("[^0-9%-]+");
+        e.Handled = regex.IsMatch(e.Text);
+    }
+
     //TODO Implement zoom ComboBox
     private void ZoomBox_TextChanged(object sender, TextChangedEventArgs e)
     {
@@ -228,8 +235,7 @@ public partial class MainWindow : Window
         } 
         else
         {
-            zoomBox.Text = "";
-            //zoomBox.Text = (zoom * 100).ToString() + "%";
+            zoomBox.Text = (zoom * 100).ToString() + "%";
         }
     }
 
