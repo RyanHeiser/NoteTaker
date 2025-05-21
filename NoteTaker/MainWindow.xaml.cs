@@ -212,6 +212,21 @@ public partial class MainWindow : Window
         UpdateTitleSavedIndicator();
     }
 
+    // Handles window closing
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        if (!Saved && !(FilePath == "" && textEditor.Text == ""))
+        {
+            if (!UnsavedPrompt())
+            {
+                e.Cancel = true;
+            }
+        }
+    }
+
+    /* ZOOMBOX Event Handlers */
+
+    // Prevents non digits or '%' from being typed into zoomBox
     private void ZoomBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
     {
         Regex regex = new Regex("[^0-9%-]+");
@@ -238,6 +253,7 @@ public partial class MainWindow : Window
         }
     }
 
+    // When zoomBox loses focus a '%' is added to the text value if not already present
     private void ZoomBox_LostFocus(object sender, RoutedEventArgs e)
     {
         if (!zoomBox.Text.Contains("%"))
@@ -246,6 +262,7 @@ public partial class MainWindow : Window
         }
     }
 
+    // Returns focus to the textEditor when Enter is pressed in the zoomBox
     private void ZoomBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
@@ -255,17 +272,7 @@ public partial class MainWindow : Window
         }
     }
 
-    // Handles window closing
-    private void Window_Closing(object sender, CancelEventArgs e)
-    {
-        if (!Saved && !(FilePath == "" && textEditor.Text == ""))
-        {
-            if(!UnsavedPrompt())
-            {
-                e.Cancel = true;
-            }
-        }
-    }
+    
 
 
     /* UTILITY */
