@@ -30,17 +30,18 @@ public partial class MainWindow : Window
     String FilePath = "";
     String FileName = "Untitled";
     Boolean Saved = false;
-    private double fontSize;
     private double zoom = 1.0;
 
     public MainWindow()
     {
         InitializeComponent();
 
-        this.fontSize = textEditor.FontSize;
+        this.NonZoomFontSize = textEditor.FontSize;
 
         zoomBox.ItemsSource = new List<string>() { "20%", "40%", "60%", "80%", "90%", "100%", "110%", "125%", "150%", "175%", "200%"};
     }
+
+    public double NonZoomFontSize { get; set; }
 
     /* COMMANDS */
 
@@ -75,6 +76,14 @@ public partial class MainWindow : Window
     private void NewWindowCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         MainWindow newWindow = new MainWindow();
+
+        newWindow.textEditor.FontFamily = this.textEditor.FontFamily;
+        newWindow.textEditor.FontStyle = this.textEditor.FontStyle;
+        newWindow.textEditor.FontWeight = this.textEditor.FontWeight;
+        newWindow.NonZoomFontSize = this.NonZoomFontSize;
+        newWindow.Zoom(1.0);
+        
+
         newWindow.Show();
         newWindow.textEditor.Focus();
     }
@@ -169,7 +178,7 @@ public partial class MainWindow : Window
             textEditor.FontFamily = fontDialog.Font;
             textEditor.FontStyle = fontDialog.Typeface.Style;
             textEditor.FontWeight = fontDialog.Typeface.Weight;
-            fontSize = fontDialog.Size;
+            NonZoomFontSize = fontDialog.Size;
             Zoom(this.zoom);
         }
     }
@@ -297,11 +306,11 @@ public partial class MainWindow : Window
 
     /* UTILITY */
 
-    private void Zoom(double zoom)
+    public void Zoom(double zoom)
     {
         if (zoom > MinZoom)
         {
-            textEditor.FontSize = fontSize * zoom;
+            textEditor.FontSize = NonZoomFontSize * zoom;
             this.zoom = zoom;
         }
         

@@ -50,6 +50,8 @@ namespace NoteTaker.CustomControls
             set 
             {
                 _selection = value;
+                selectionTextBox.Text = value;
+                selectionTextBox.Select(selectionTextBox.Text.Length, 0);
                 ListSelectionChanged?.Invoke(this, EventArgs.Empty);
             } 
         }
@@ -66,7 +68,7 @@ namespace NoteTaker.CustomControls
                 {
                     string selectString = ItemToString(item.ToString());
 
-                    Select(selectString);
+                    Selection = selectString;
                 }
             }
         }
@@ -99,18 +101,18 @@ namespace NoteTaker.CustomControls
             if (index >= 0)
             {
                 selectionList.SelectedIndex = index;
-                Select(ItemToString(selectionList.SelectedItem.ToString()));
+                Selection = ItemToString(selectionList.SelectedItem.ToString());
                 selectionList.ScrollIntoView(selectionList.SelectedItem);
             }
         }
 
 
-        private void Select(string selection)
-        {
-            selectionTextBox.Text = selection;
-            selectionTextBox.Select(selectionTextBox.Text.Length, 0);
-            Selection = selection;
-        }
+        //private void Select(string selection)
+        //{
+        //    selectionTextBox.Text = selection;
+        //    selectionTextBox.Select(selectionTextBox.Text.Length, 0);
+        //    Selection = selection;
+        //}
 
         private string ItemToString(string item)
         {

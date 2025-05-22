@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <uc:ListViewSelector x:Name="fontList" Title="Font:" Margin="5" IsSearch="True" uc:ListSelectionChanged="Font_ListSelectionChanged" />
-            <uc:ListViewSelector x:Name="fontTypeList" Grid.Column="1"  Title="Font Style:" Margin="5" uc:ListSelectionChanged="FontType_ListSelectionChanged" />
+            <uc:ListViewSelector x:Name="fontTypeList" Grid.Column="1"  Title="Font Style:" Margin="5" />
             <uc:ListViewSelector x:Name="fontSizeList" Grid.Column="2"  Title="Size:" Margin="5" />
         </Grid>
     </DockPanel>

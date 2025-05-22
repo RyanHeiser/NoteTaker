@@ -40,6 +40,7 @@ namespace NoteTaker.CustomDialogs
             Font = this.FontFamily;
             Typeface = Font.FamilyTypefaces[0];
             Size = this.FontSize;
+
         }
 
         public FontFamily Font { get; private set; }
@@ -51,16 +52,16 @@ namespace NoteTaker.CustomDialogs
             UpdateFontStyles();
         }
 
-        private void FontType_ListSelectionChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void ApplyButton_Click(object sender, EventArgs e)
         {
             Font = new FontFamily(fontList.Selection);
             Typeface = Font.FamilyTypefaces.ElementAt(fontTypeList.List.SelectedIndex);
             Size = double.Parse(fontSizeList.Selection);
+
+            NoteTaker.Properties.Settings.Default.Font = Font.ToString(); ;
+            NoteTaker.Properties.Settings.Default.TypefaceIndex = Font.FamilyTypefaces.IndexOf(Typeface); ;
+            NoteTaker.Properties.Settings.Default.FontSize = Size;
+
             this.DialogResult = true;
         }
 
