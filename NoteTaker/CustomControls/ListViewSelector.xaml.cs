@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,6 +44,7 @@ namespace NoteTaker.CustomControls
         public int ListItemFontSize { get; set; }
         public int ListLabelFontSize { get; set; }
         public Boolean IsSearch {  get; set; }
+        public Boolean IsDigitsOnly { get; set; }
         public ListView List { get; set; }
         public String Selection 
         {
@@ -104,6 +106,15 @@ namespace NoteTaker.CustomControls
             }
 
             SelectFromString(selectionTextBox.Text);
+        }
+
+        private void SelectionTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (IsDigitsOnly)
+            {
+                Regex regex = new Regex("[^0-9-]+");
+                e.Handled = regex.IsMatch(e.Text);
+            }
         }
 
         public void SelectFromString(string str)
