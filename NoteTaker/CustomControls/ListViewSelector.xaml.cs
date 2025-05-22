@@ -22,6 +22,7 @@ namespace NoteTaker.CustomControls
     public partial class ListViewSelector : UserControl
     {
         private string _selection;
+        private object _value;
 
         public ListViewSelector()
         {
@@ -54,6 +55,16 @@ namespace NoteTaker.CustomControls
                 selectionTextBox.Select(selectionTextBox.Text.Length, 0);
                 ListSelectionChanged?.Invoke(this, EventArgs.Empty);
             } 
+        }
+
+        public void SetValue<T>(T newValue)
+        {
+            _value = newValue;
+        }
+
+        public T GetValue<T>()
+        {
+            return (T)_value;
         }
 
         public event EventHandler? ListSelectionChanged;
@@ -97,7 +108,12 @@ namespace NoteTaker.CustomControls
                 }
             }
 
-            int index = IndexOf(selectionTextBox.Text);
+            SelectFromString(selectionTextBox.Text);
+        }
+
+        public void SelectFromString(string str)
+        {
+            int index = IndexOf(str);
             if (index >= 0)
             {
                 selectionList.SelectedIndex = index;
@@ -114,7 +130,7 @@ namespace NoteTaker.CustomControls
         //    Selection = selection;
         //}
 
-        private string ItemToString(string item)
+        public string ItemToString(string item)
         {
             if (item.Contains(":"))
             {
