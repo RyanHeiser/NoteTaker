@@ -42,6 +42,7 @@ namespace NoteTaker.CustomControls
         public string Title { get; set; }
         public int ListItemFontSize { get; set; }
         public int ListLabelFontSize { get; set; }
+        public Boolean IsSearch {  get; set; }
         public ListView List { get; set; }
         public String Selection 
         {
@@ -85,12 +86,21 @@ namespace NoteTaker.CustomControls
 
         private void SelectionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if (IsSearch)
+            {
+                int indexStart = IndexOfStart(selectionTextBox.Text);
+                if (indexStart >= 0)
+                {
+                    selectionList.ScrollIntoView(selectionList.Items[indexStart]);
+                }
+            }
+
             int index = IndexOf(selectionTextBox.Text);
-            Debug.WriteLine(index);
             if (index >= 0)
             {
                 selectionList.SelectedIndex = index;
                 Select(ItemToString(selectionList.SelectedItem.ToString()));
+                selectionList.ScrollIntoView(selectionList.SelectedItem);
             }
         }
 
@@ -109,6 +119,21 @@ namespace NoteTaker.CustomControls
                 item = item.Substring(item.LastIndexOf(':') + 1).Trim();
             }
             return item;
+        }
+
+        private int IndexOfStart(String text)
+        {
+            int index = 0;
+            foreach (var item in selectionList.Items)
+            {
+                if (item != null && ItemToString(item.ToString()).ToLower().StartsWith(text.ToLower()))
+                {
+                    return index;
+                }
+
+                index++;
+            }
+            return -1;
         }
 
         private int IndexOf(string text)
