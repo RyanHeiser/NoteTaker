@@ -37,7 +37,7 @@ namespace NoteTaker.CustomDialogs
             UpdateFontStyles();
             fontSizeList.List.ItemsSource = new List<int>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
 
-            //SelectCurrentFont();
+            SelectCurrentFont();
 
             //Font = new FontFamily(fontList.Selection);
             //Debug.WriteLine(fontTypeList.Selection);
@@ -74,7 +74,13 @@ namespace NoteTaker.CustomDialogs
 
             fontList.SelectFromString(Properties.Settings.Default.Font);
             FontFamily f = new FontFamily(Properties.Settings.Default.Font);
-            fontTypeList.SelectFromString(fontTypeList.ItemToString(f.FamilyTypefaces[Properties.Settings.Default.TypefaceIndex].ToString()));
+
+            FamilyTypeface typeface = f.FamilyTypefaces[Properties.Settings.Default.TypefaceIndex];
+            string typefaceStr = typeface.Weight.ToString() + " " + typeface.Style.ToString();
+            if (typefaceStr == "Normal Normal")
+                typefaceStr = "Normal";
+
+            fontTypeList.SelectFromString(typefaceStr);
             fontSizeList.SelectFromString(Properties.Settings.Default.FontSize.ToString());
 
         }
