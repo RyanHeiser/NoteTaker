@@ -15,6 +15,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using NoteTaker.CustomDialogs;
+
 namespace NoteTaker;
 
 /// <summary>
@@ -151,6 +153,20 @@ public partial class MainWindow : Window
         else
         {
             textEditor.TextWrapping = TextWrapping.Wrap;
+        }
+    }
+
+    private void FontDialogCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = true;
+    }
+
+    private void FontDialogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+    {
+        FontDialog fontDialog = new FontDialog();
+        if (fontDialog.ShowDialog() == true)
+        {
+
         }
     }
 

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="clr-namespace:NoteTaker.CustomControls"
         xmlns:local="clr-namespace:NoteTaker"
         mc:Ignorable="d"
         Closing="Window_Closing"
@@ -15,6 +16,7 @@
         <CommandBinding Command="local:CustomCommands.SaveAs" CanExecute="SaveAsCommand_CanExecute" Executed="SaveAsCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.TextWrapping" CanExecute="TextWrappingCommand_CanExecute" Executed="TextWrappingCommand_Executed" />
+        <CommandBinding Command="local:CustomCommands.FontDialog" CanExecute="FontDialogCommand_CanExecute" Executed="FontDialogCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.ZoomIn" CanExecute="ZoomInCommand_CanExecute" Executed="ZoomInCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.ZoomOut" CanExecute="ZoomOutCommand_CanExecute" Executed="ZoomOutCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.DefaultZoom" CanExecute="DefaultZoomCommand_CanExecute" Executed="DefaultZoomCommand_Executed" />
@@ -42,6 +44,7 @@
             </MenuItem>
             <MenuItem Header="_Format">
                 <MenuItem Command="local:CustomCommands.TextWrapping" IsCheckable="True" />
+                <MenuItem Command="local:CustomCommands.FontDialog" />
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Command="local:CustomCommands.ZoomIn" />

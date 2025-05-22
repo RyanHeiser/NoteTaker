@@ -53,6 +53,14 @@ namespace NoteTaker
                typeof(CustomCommands)
            );
 
+        // FONT DIALOG Command
+        public static readonly RoutedUICommand FontDialog = new RoutedUICommand
+           (
+               "Font",
+               "FontDialog",
+               typeof(CustomCommands)
+           );
+
         // ZOOM IN Command
         public static readonly RoutedUICommand ZoomIn = new RoutedUICommand
            (

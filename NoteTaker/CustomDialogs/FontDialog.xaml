@@ -1,0 +1,20 @@
+﻿<Window x:Class="NoteTaker.CustomDialogs.FontDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="clr-namespace:NoteTaker.CustomControls"
+        xmlns:local="clr-namespace:NoteTaker.CustomDialogs"
+        mc:Ignorable="d"
+        Title="Window1" Height="400" Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <uc:ListViewSelector x:Name="fontList" Title="Font:" uc:ListSelectionChanged="FontList_ListSelectionChanged" />
+        <uc:ListViewSelector x:Name="fontStyleList" Grid.Column="1" Title="Font Style:" />
+        <uc:ListViewSelector x:Name="fontSizeList" Grid.Column="2" Title="Font Size:" />
+    </Grid>
+</Window>
