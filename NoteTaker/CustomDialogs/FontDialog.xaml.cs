@@ -59,8 +59,16 @@ namespace NoteTaker.CustomDialogs
             if (fontTypeList.List.SelectedIndex >= 0)
                 Typeface = Font.FamilyTypefaces.ElementAt(fontTypeList.List.SelectedIndex);
 
-            if (fontSizeList.Selection != null && fontSizeList.Selection.Length > 0)
+
+            if (double.TryParse(fontSizeList.selectionTextBox.Text, out double result))
+            {
+                Size = result;
+            }
+            else if (fontSizeList.Selection != null && fontSizeList.Selection.Length > 0)
+            {
                 Size = double.Parse(fontSizeList.Selection);
+            }
+
 
             NoteTaker.Properties.Settings.Default.Font = Font.ToString(); ;
             NoteTaker.Properties.Settings.Default.TypefaceIndex = Font.FamilyTypefaces.IndexOf(Typeface); ;
