@@ -25,6 +25,7 @@ namespace NoteTaker.CustomDialogs
         {
             InitializeComponent();
 
+            // Add list of font familys, each list item in its own font
             IOrderedEnumerable<FontFamily> fonts = Fonts.SystemFontFamilies.OrderBy(f => f.Source);
             foreach (FontFamily f in fonts)
             {
@@ -32,24 +33,48 @@ namespace NoteTaker.CustomDialogs
                 Debug.WriteLine(f.ToString());
             }
 
-            FontFamily font = new FontFamily(fontList.Selection);
-            foreach (FamilyTypeface typeface in font.FamilyTypefaces)
-            {
-                fontStyleList.List.Items.Add(typeface.Style);
-            }
-            //fontStyleList.List.ItemsSource = font.FamilyTypefaces;
-
+            // Set font styles and sizes
+            UpdateFontStyles();
             fontSizeList.List.ItemsSource = new List<int>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
+
+            Font = this.FontFamily;
+            Typeface = Font.FamilyTypefaces[0];
+            Size = this.FontSize;
         }
 
+        public FontFamily Font { get; private set; }
+        public FamilyTypeface Typeface { get; private set; }
+        public double Size { get; private set; }
 
-        private void FontList_ListSelectionChanged(object sender, EventArgs e)
+        private void Font_ListSelectionChanged(object sender, EventArgs e)
         {
+            UpdateFontStyles();
+        }
+
+        private void FontType_ListSelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ApplyButton_Click(object sender, EventArgs e)
+        {
+            Font = new FontFamily(fontList.Selection);
+            Typeface = Font.FamilyTypefaces.ElementAt(fontTypeList.List.SelectedIndex);
+            Size = double.Parse(fontSizeList.Selection);
+            this.DialogResult = true;
+        }
+
+        private void UpdateFontStyles()
+        {
+            fontTypeList.List.Items.Clear();
             FontFamily font = new FontFamily(fontList.Selection);
-            fontStyleList.List.Items.Clear();
             foreach (FamilyTypeface typeface in font.FamilyTypefaces)
             {
-                fontStyleList.List.Items.Add(typeface.Style);
+                string typefaceStr = typeface.Weight.ToString() + " " + typeface.Style.ToString();
+                if (typefaceStr == "Normal Normal")
+                    typefaceStr = "Normal";
+
+                fontTypeList.List.Items.Add(new ListViewItem { Content = typefaceStr, FontFamily = font, FontStyle = typeface.Style, FontWeight = typeface.Weight, });
             }
         }
     }

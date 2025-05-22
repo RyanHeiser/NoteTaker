@@ -6,15 +6,25 @@
         xmlns:uc="clr-namespace:NoteTaker.CustomControls"
         xmlns:local="clr-namespace:NoteTaker.CustomDialogs"
         mc:Ignorable="d"
-        Title="Window1" Height="400" Width="300">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <uc:ListViewSelector x:Name="fontList" Title="Font:" uc:ListSelectionChanged="FontList_ListSelectionChanged" />
-        <uc:ListViewSelector x:Name="fontStyleList" Grid.Column="1" Title="Font Style:" />
-        <uc:ListViewSelector x:Name="fontSizeList" Grid.Column="2" Title="Font Size:" />
-    </Grid>
+        Title="Font" Height="500" Width="500">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="applyButton" IsDefault="True" Click="ApplyButton_Click" Height="30" Width="50" Margin="5">Apply</Button>
+            <Button Name="cancelButton" IsCancel="True" Height="30" Width="50" Margin="5">Cancel</Button>
+        </StackPanel>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <uc:ListViewSelector x:Name="fontList" Title="Font:" Margin="5" uc:ListSelectionChanged="Font_ListSelectionChanged" />
+            <uc:ListViewSelector x:Name="fontTypeList" Grid.Column="1"  Title="Font Style:" Margin="5" uc:ListSelectionChanged="FontType_ListSelectionChanged" />
+            <uc:ListViewSelector x:Name="fontSizeList" Grid.Column="2"  Title="Size:" Margin="5" />
+        </Grid>
+    </DockPanel>
 </Window>

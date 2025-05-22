@@ -166,7 +166,11 @@ public partial class MainWindow : Window
         FontDialog fontDialog = new FontDialog();
         if (fontDialog.ShowDialog() == true)
         {
-
+            textEditor.FontFamily = fontDialog.Font;
+            textEditor.FontStyle = fontDialog.Typeface.Style;
+            textEditor.FontWeight = fontDialog.Typeface.Weight;
+            fontSize = fontDialog.Size;
+            Zoom(this.zoom);
         }
     }
 

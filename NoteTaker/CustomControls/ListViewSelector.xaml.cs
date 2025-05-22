@@ -28,12 +28,20 @@ namespace NoteTaker.CustomControls
             this.DataContext = this;
 
             Title = "title";
+            ListItemFontSize = 14;
+            ListLabelFontSize = 14;
             List = selectionList;
-            Selection = "";
+            _selection = "";
+
+            selectionList.FontSize = ListItemFontSize;
+            selectionLabel.FontSize = ListLabelFontSize;
         }
 
         public string Title { get; set; }
+        public int ListItemFontSize { get; set; }
+        public int ListLabelFontSize { get; set; }
         public ListView List { get; set; }
+        public FamilyTypeface Typeface { get; private set; }
         public String Selection 
         {
             get { return _selection; }
@@ -59,7 +67,11 @@ namespace NoteTaker.CustomControls
                 var item = listView.SelectedItem;
                 if (item != null)
                 {
-                    string selectString = item.ToString().Substring(item.ToString().LastIndexOf(':') + 1).Trim();
+                    string selectString = item.ToString();
+                    if (selectString.Contains(":"))
+                    {
+                        selectString =selectString.Substring(item.ToString().LastIndexOf(':') + 1).Trim();
+                    }
                     selectionTextBox.Text = selectString;
                     Selection = selectString;
                 }

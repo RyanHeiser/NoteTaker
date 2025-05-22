@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label Content="{Binding Title}" />
+        <Label Name="selectionLabel" Content="{Binding Title}" />
         <TextBox Grid.Row="1" Name="selectionTextBox"  KeyDown="SelectionTextBox_KeyDown" LostFocus="SelectionTextBox_LostFocus" />
         <ListView Grid.Row="2" Name="selectionList" PreviewMouseLeftButtonUp="SelectionList_Click"></ListView>
     </Grid>
