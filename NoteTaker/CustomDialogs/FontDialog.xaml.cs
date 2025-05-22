@@ -39,11 +39,6 @@ namespace NoteTaker.CustomDialogs
 
             SelectCurrentFont();
 
-            //Font = new FontFamily(fontList.Selection);
-            //Debug.WriteLine(fontTypeList.Selection);
-            //Typeface = Font.FamilyTypefaces.ElementAt(fontTypeList.List.SelectedIndex);
-            //Size = double.Parse(fontSizeList.Selection);
-
         }
 
         public FontFamily Font { get; private set; }
@@ -57,10 +52,15 @@ namespace NoteTaker.CustomDialogs
 
         private void ApplyButton_Click(object sender, EventArgs e)
         {
+            if (fontList.Selection != null)
+                Debug.WriteLine("Font is " + fontList.Selection);
+                Font = new FontFamily(fontList.Selection);
 
-            Font = new FontFamily(fontList.Selection);
-            Typeface = Font.FamilyTypefaces.ElementAt(fontTypeList.List.SelectedIndex);
-            Size = double.Parse(fontSizeList.Selection);
+            if (fontTypeList.List.SelectedIndex >= 0)
+                Typeface = Font.FamilyTypefaces.ElementAt(fontTypeList.List.SelectedIndex);
+
+            if (fontSizeList.Selection != null && fontSizeList.Selection.Length > 0)
+                Size = double.Parse(fontSizeList.Selection);
 
             NoteTaker.Properties.Settings.Default.Font = Font.ToString(); ;
             NoteTaker.Properties.Settings.Default.TypefaceIndex = Font.FamilyTypefaces.IndexOf(Typeface); ;
@@ -71,18 +71,23 @@ namespace NoteTaker.CustomDialogs
 
         private void SelectCurrentFont()
         {
-
+            // Select font from list and set Font field
             fontList.SelectFromString(Properties.Settings.Default.Font);
             FontFamily f = new FontFamily(Properties.Settings.Default.Font);
+            Font = f;
 
+            // Select font style from list and set Typeface field
             FamilyTypeface typeface = f.FamilyTypefaces[Properties.Settings.Default.TypefaceIndex];
+            Typeface = typeface;
             string typefaceStr = typeface.Weight.ToString() + " " + typeface.Style.ToString();
             if (typefaceStr == "Normal Normal")
                 typefaceStr = "Normal";
 
             fontTypeList.SelectFromString(typefaceStr);
-            fontSizeList.SelectFromString(Properties.Settings.Default.FontSize.ToString());
 
+            // Select font size from list and set Size field
+            fontSizeList.SelectFromString(Properties.Settings.Default.FontSize.ToString());
+            Size = Properties.Settings.Default.FontSize;
         }
 
         private void UpdateFontStyles()

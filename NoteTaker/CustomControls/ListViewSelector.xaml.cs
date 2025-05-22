@@ -77,13 +77,19 @@ namespace NoteTaker.CustomControls
         {
             if (e.Key == Key.Enter)
             {
-                Selection = selectionTextBox.Text;
+                if (IndexOf(selectionTextBox.Text) >= 0) {
+                    Selection = selectionTextBox.Text;
+                }
+                
             }
         }
 
         private void SelectionTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            Selection = selectionTextBox.Text;
+            if (IndexOf(selectionTextBox.Text) >= 0)
+            {
+                Selection = selectionTextBox.Text;
+            }
         }
 
         private void SelectionTextBox_TextChanged(object sender, TextChangedEventArgs e)

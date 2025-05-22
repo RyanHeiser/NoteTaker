@@ -19,6 +19,10 @@ public partial class App : Application
         //App.Current.Properties["TypefaceIndex"] = NoteTaker.Properties.Settings.Default.TypefaceIndex;
         //App.Current.Properties["FontSize"] = NoteTaker.Properties.Settings.Default.FontSize;
 
+        //NoteTaker.Properties.Settings.Default.Font = "Segoe UI";
+        //NoteTaker.Properties.Settings.Default.TypefaceIndex = 4;
+        //NoteTaker.Properties.Settings.Default.FontSize = 12.0;
+
         String fontFamilySetting = NoteTaker.Properties.Settings.Default.Font;
         int typefaceIndex = NoteTaker.Properties.Settings.Default.TypefaceIndex;
         double fontSize = NoteTaker.Properties.Settings.Default.FontSize;
