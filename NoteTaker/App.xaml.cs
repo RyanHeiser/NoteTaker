@@ -1,27 +1,17 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
-using NoteTaker.Properties;
 
 namespace NoteTaker;
 
 /// <summary>
-/// Interaction logic for App.xaml
+/// Contains startup and exit processes for the application
 /// </summary>
 public partial class App : Application
 {
+    // Sets the font settings on startup
     private void Application_Startup(object sender, StartupEventArgs e)
     {
         MainWindow wnd = new MainWindow();
-
-        //App.Current.Properties["FontFamily"] = NoteTaker.Properties.Settings.Default.Font;
-        //App.Current.Properties["TypefaceIndex"] = NoteTaker.Properties.Settings.Default.TypefaceIndex;
-        //App.Current.Properties["FontSize"] = NoteTaker.Properties.Settings.Default.FontSize;
-
-        //NoteTaker.Properties.Settings.Default.Font = "Segoe UI";
-        //NoteTaker.Properties.Settings.Default.TypefaceIndex = 4;
-        //NoteTaker.Properties.Settings.Default.FontSize = 12.0;
 
         String fontFamilySetting = NoteTaker.Properties.Settings.Default.Font;
         int typefaceIndex = NoteTaker.Properties.Settings.Default.TypefaceIndex;
@@ -38,11 +28,9 @@ public partial class App : Application
         wnd.textEditor.Focus();
     }
 
+    // Saves font settings on exit
     private void Application_Exit(object sender, ExitEventArgs e)
     {
-        //NoteTaker.Properties.Settings.Default.Font = (string)App.Current.Properties["FontFamily"];
-        //NoteTaker.Properties.Settings.Default.TypefaceIndex = (int)App.Current.Properties["TypefaceIndex"];
-        //NoteTaker.Properties.Settings.Default.FontSize = (double)App.Current.Properties["FontSize"];
         NoteTaker.Properties.Settings.Default.Save();
     }
 }

@@ -1,19 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace NoteTaker.CustomControls
 {
@@ -43,14 +32,19 @@ namespace NoteTaker.CustomControls
         public string Title { get; set; }
         public int ListItemFontSize { get; set; }
         public int ListLabelFontSize { get; set; }
-        public Boolean IsSearch {  get; set; }
-        public Boolean IsDigitsOnly { get; set; }
+        public Boolean IsSearch {  get; set; } // If true the list will scroll to the first matcing item
+        public Boolean IsDigitsOnly { get; set; } // If true then only digits can be typed in text box
         public ListView List { get; set; }
+
+        // Sets this._selection to the passed argument
+        // Sets the text box to the passed argument
+        // Invokes a custom event to signal that a selection change has occurred
         public String Selection 
         {
             get { return _selection; }
             set 
             {
+                value = ItemToString(value);
                 _selection = value;
                 selectionTextBox.Text = value;
                 selectionTextBox.Select(selectionTextBox.Text.Length, 0);
@@ -58,8 +52,11 @@ namespace NoteTaker.CustomControls
             } 
         }
 
+        // A custom event that signals when a selection change has occurred
         public event EventHandler? ListSelectionChanged;
 
+        // Runs when an item in the list is clicked
+        // Sets this.Selection to the item clicked
         private void SelectionList_Click(object sender, RoutedEventArgs e)
         {
             var listView = sender as ListView;
@@ -75,6 +72,7 @@ namespace NoteTaker.CustomControls
             }
         }
 
+        // When enter is pressed in the selectionTextBox, this.Selection is set to the text in text box only if present in the list
         private void SelectionTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -86,6 +84,7 @@ namespace NoteTaker.CustomControls
             }
         }
 
+        // When selectionTextBox focus is lost, this.Selection is set to the text in text box only if present in the list
         private void SelectionTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (IndexOf(selectionTextBox.Text) >= 0)
@@ -94,6 +93,8 @@ namespace NoteTaker.CustomControls
             }
         }
 
+        // If IsSearch == true, scrolls to the first list item that starts with the text in selectionTextBox
+        // Regardless of IsSearch, if the text in the textbox matches an item in the list that item will be selected
         private void SelectionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (IsSearch)
@@ -108,6 +109,7 @@ namespace NoteTaker.CustomControls
             SelectFromString(selectionTextBox.Text);
         }
 
+        // Prevents non-digits from being typed if IsDigtisOnly == true
         private void SelectionTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (IsDigitsOnly)
@@ -117,7 +119,8 @@ namespace NoteTaker.CustomControls
             }
         }
 
-        public void SelectFromString(string str)
+        // Selects an item if its string value is equal to the string argument
+        public Boolean SelectFromString(string str)
         {
             int index = IndexOf(str);
             if (index >= 0)
@@ -125,17 +128,14 @@ namespace NoteTaker.CustomControls
                 selectionList.SelectedIndex = index;
                 Selection = ItemToString(selectionList.SelectedItem.ToString());
                 selectionList.ScrollIntoView(selectionList.SelectedItem);
+                return true;
+            } else
+            {
+                return false;
             }
         }
 
-
-        //private void Select(string selection)
-        //{
-        //    selectionTextBox.Text = selection;
-        //    selectionTextBox.Select(selectionTextBox.Text.Length, 0);
-        //    Selection = selection;
-        //}
-
+        // Font families and typefaces have preceding information present in their string values removed
         public string ItemToString(string item)
         {
             if (item.Contains(":"))
@@ -145,12 +145,14 @@ namespace NoteTaker.CustomControls
             return item;
         }
 
-        private int IndexOfStart(String text)
+        // Searches for first item in the list that starts with the target and returns the index or -1 if not present
+        // Not case-sensitive
+        private int IndexOfStart(String target)
         {
             int index = 0;
             foreach (var item in selectionList.Items)
             {
-                if (item != null && ItemToString(item.ToString()).ToLower().StartsWith(text.ToLower()))
+                if (item != null && ItemToString(item.ToString()).ToLower().StartsWith(target.ToLower()))
                 {
                     return index;
                 }
@@ -160,12 +162,14 @@ namespace NoteTaker.CustomControls
             return -1;
         }
 
-        private int IndexOf(string text)
+        // Searches for an item in the list and returns the index or -1 if not present
+        // Not case-sensitive
+        private int IndexOf(string target)
         {
             int index = 0;
             foreach (var item in selectionList.Items)
             {
-                if (item != null && String.Equals(ItemToString(item.ToString()).ToLower(), text.ToLower()))
+                if (item != null && String.Equals(ItemToString(item.ToString()).ToLower(), target.ToLower()))
                 {
                     return index;
                 }

@@ -2,25 +2,18 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 using NoteTaker.CustomDialogs;
 
 namespace NoteTaker;
 
 /// <summary>
-/// Interaction logic for MainWindow.xaml
+/// The Main Text Editor window. Contains a top menu, a text box, and a bottom status bar.
 /// </summary>
 public partial class MainWindow : Window
 {
@@ -43,6 +36,8 @@ public partial class MainWindow : Window
 
     public double NonZoomFontSize { get; set; }
 
+
+
     /* COMMANDS */
 
     // File Menu Commands
@@ -52,10 +47,12 @@ public partial class MainWindow : Window
         e.CanExecute = true;
     }
 
+    // Sets textEditor to empty string
     private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         if (!Saved && !(FilePath == "" && textEditor.Text == ""))
         {
+            // Opens UnsavedDilog if text is unsaved
             if (!UnsavedPrompt())
             {
                 e.Handled = true;
@@ -73,10 +70,12 @@ public partial class MainWindow : Window
         e.CanExecute = true;
     }
 
+    // Creates a new window
     private void NewWindowCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         MainWindow newWindow = new MainWindow();
 
+        // Sets font settings in new window
         newWindow.textEditor.FontFamily = this.textEditor.FontFamily;
         newWindow.textEditor.FontStyle = this.textEditor.FontStyle;
         newWindow.textEditor.FontWeight = this.textEditor.FontWeight;
@@ -92,6 +91,7 @@ public partial class MainWindow : Window
         e.CanExecute = true;
     }
 
+    // Opens OpenFileDialog to load in text from a file
     private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         if (!Saved && !(FilePath == "" && textEditor.Text == ""))
@@ -170,6 +170,7 @@ public partial class MainWindow : Window
         e.CanExecute = true;
     }
 
+    // Opens a dialog to change font family, style, and size
     private void FontDialogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         FontDialog fontDialog = new FontDialog();
@@ -179,7 +180,7 @@ public partial class MainWindow : Window
             textEditor.FontStyle = fontDialog.Typeface.Style;
             textEditor.FontWeight = fontDialog.Typeface.Weight;
             NonZoomFontSize = fontDialog.Size;
-            Zoom(this.zoom);
+            Zoom(this.zoom); // Call Zoom() to update textEditor.FontSize to NonZoomFontSize * this.zoom
         }
     }
 
@@ -219,6 +220,60 @@ public partial class MainWindow : Window
     }
 
 
+
+    /* ZOOMBOX Event Handlers */
+
+    // Prevents non digits or '%' from being typed into zoomBox
+    private void ZoomBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        Regex regex = new Regex("[^0-9%-]+");
+        e.Handled = regex.IsMatch(e.Text);
+    }
+
+    // Zooms using zoomBox text value
+    private void ZoomBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        Debug.WriteLine("ZoomBox_TextChanged");
+
+        if (zoomBox.Text.Length == 0)
+        {
+            return;
+        }
+
+        // Zoom if the text in the zoomBox without '%' can be parsed to a double
+        string percent = zoomBox.Text.Replace("%", "");
+        if (double.TryParse(percent, out double zoomPercent))
+        {
+            Zoom(zoomPercent / 100D);
+        }
+        // Otherwise set text in zoomBox to current zoom
+        else
+        {
+            zoomBox.Text = (zoom * 100).ToString() + "%";
+        }
+    }
+
+    // When zoomBox loses focus a '%' is added to the text value if not already present
+    private void ZoomBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (!zoomBox.Text.Contains("%"))
+        {
+            zoomBox.Text += '%';
+        }
+    }
+
+    // Returns focus to the textEditor when Enter is pressed in the zoomBox
+    private void ZoomBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            zoomBox.Text = (zoom * 100).ToString() + "%";
+            textEditor.Focus();
+        }
+    }
+
+
+
     /* OTHER EVENT HANDLERS */
 
     // Updates StatusBar when changes are made to the text editor
@@ -252,60 +307,12 @@ public partial class MainWindow : Window
             }
         }
     }
-
-    /* ZOOMBOX Event Handlers */
-
-    // Prevents non digits or '%' from being typed into zoomBox
-    private void ZoomBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
-        Regex regex = new Regex("[^0-9%-]+");
-        e.Handled = regex.IsMatch(e.Text);
-    }
-
-    // Zooms using zoomBox text value
-    private void ZoomBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        Debug.WriteLine("ZoomBox_TextChanged");
-
-        if (zoomBox.Text.Length == 0)
-        {
-            return;
-        }
-
-        string percent = zoomBox.Text.Replace("%", "");
-        if(double.TryParse(percent, out double zoomPercent)) {
-            Zoom(zoomPercent / 100D);
-        } 
-        else
-        {
-            zoomBox.Text = (zoom * 100).ToString() + "%";
-        }
-    }
-
-    // When zoomBox loses focus a '%' is added to the text value if not already present
-    private void ZoomBox_LostFocus(object sender, RoutedEventArgs e)
-    {
-        if (!zoomBox.Text.Contains("%"))
-        {
-            zoomBox.Text += '%';
-        }
-    }
-
-    // Returns focus to the textEditor when Enter is pressed in the zoomBox
-    private void ZoomBox_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.Enter)
-        {
-            zoomBox.Text = (zoom * 100).ToString() + "%";
-            textEditor.Focus();
-        }
-    }
-
     
 
 
     /* UTILITY */
 
+    // Changes font size to simulate zoom
     public void Zoom(double zoom)
     {
         if (zoom > MinZoom)
@@ -316,6 +323,7 @@ public partial class MainWindow : Window
         
     }
 
+    // Saves current text in editor to the saved file path. If none then calls SaveAs
     private void Save()
     {
         if (FilePath.Equals(""))
@@ -328,6 +336,7 @@ public partial class MainWindow : Window
         }
     }
 
+    // Opens SaveFileDialog to save current text in editor
     private void SaveAs()
     {
         SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -368,6 +377,7 @@ public partial class MainWindow : Window
         return false;
     }
 
+    // Adds asterik if there are unsaved changes, removes asterik if there are no unsaved changes
     private void UpdateTitleSavedIndicator()
     {
         // removes unsaved indicator if file is saved or there is no save location and the text editor is empty
@@ -381,6 +391,7 @@ public partial class MainWindow : Window
         }
     }
 
+    // Saves text in editor to file path
     private void WriteToFile()
     {
         File.WriteAllText(FilePath, textEditor.Text);

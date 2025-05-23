@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
+
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace NoteTaker.CustomDialogs
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// A dialog that allows the user to change font family, style, and size
     /// </summary>
     public partial class FontDialog : Window
     {
@@ -30,14 +21,13 @@ namespace NoteTaker.CustomDialogs
             foreach (FontFamily f in fonts)
             {
                 fontList.List.Items.Add(new ListViewItem { Content = f, FontFamily = f });
-                Debug.WriteLine(f.ToString());
             }
 
             // Set font styles and sizes
-            UpdateFontStyles();
+            UpdateFontTypefaces();
             fontSizeList.List.ItemsSource = new List<int>() { 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 36, 48, 72 };
 
-            SelectCurrentFont();
+            SelectCurrentFont(); // Selects currently used font settings from lists
 
         }
 
@@ -45,25 +35,31 @@ namespace NoteTaker.CustomDialogs
         public FamilyTypeface Typeface { get; private set; }
         public double Size { get; private set; }
 
+        // Listener to update the list of font styles to those belonging to the selected font
         private void Font_ListSelectionChanged(object sender, EventArgs e)
         {
-            UpdateFontStyles();
+            UpdateFontTypefaces();
         }
 
+        // Saves the font settings to public fields from the selected font information
+        // Also saves settings to Properties.Settings
+        // Default button
         private void ApplyButton_Click(object sender, EventArgs e)
         {
+            // Sets this.Font to the selected fontList item if not null
             if (fontList.Selection != null)
-                Debug.WriteLine("Font is " + fontList.Selection);
                 Font = new FontFamily(fontList.Selection);
 
+            // Sets this.Typeface to the nth typeface of this.Font where n is the index of the selected typeface item
             if (fontTypeList.List.SelectedIndex >= 0)
                 Typeface = Font.FamilyTypefaces.ElementAt(fontTypeList.List.SelectedIndex);
 
-
+            // Tries to parse the text in the fontSizeList textbox and save to this.Size
             if (double.TryParse(fontSizeList.selectionTextBox.Text, out double result))
             {
                 Size = result;
             }
+            // If the parse fails and the font size selection isn't null then this.Size is set to the selected font size item
             else if (fontSizeList.Selection != null && fontSizeList.Selection.Length > 0)
             {
                 Size = double.Parse(fontSizeList.Selection);
@@ -77,6 +73,7 @@ namespace NoteTaker.CustomDialogs
             this.DialogResult = true;
         }
 
+        // Sets the public font-related fields to the values saved in Properties.Settings and selects them in the font-related lists
         private void SelectCurrentFont()
         {
             // Select font from list and set Font field
@@ -84,7 +81,7 @@ namespace NoteTaker.CustomDialogs
             FontFamily f = new FontFamily(Properties.Settings.Default.Font);
             Font = f;
 
-            // Select font style from list and set Typeface field
+            // Select font typeface from list and set Typeface field
             FamilyTypeface typeface = f.FamilyTypefaces[Properties.Settings.Default.TypefaceIndex];
             Typeface = typeface;
             string typefaceStr = typeface.Weight.ToString() + " " + typeface.Style.ToString();
@@ -94,11 +91,16 @@ namespace NoteTaker.CustomDialogs
             fontTypeList.SelectFromString(typefaceStr);
 
             // Select font size from list and set Size field
-            fontSizeList.SelectFromString(Properties.Settings.Default.FontSize.ToString());
+            // If the saved font size is not one of the presets, then the saved font is set in the font size text box
+            if(!fontSizeList.SelectFromString(Properties.Settings.Default.FontSize.ToString()))
+            {
+                fontSizeList.Selection = Properties.Settings.Default.FontSize.ToString();
+            }
             Size = Properties.Settings.Default.FontSize;
         }
 
-        private void UpdateFontStyles()
+        // Updates the font typefaces list which is dependent on the selected font family
+        private void UpdateFontTypefaces()
         {
             fontTypeList.List.Items.Clear();
             FontFamily font = new FontFamily(fontList.Selection);
@@ -109,6 +111,12 @@ namespace NoteTaker.CustomDialogs
                     typefaceStr = "Normal";
 
                 fontTypeList.List.Items.Add(new ListViewItem { Content = typefaceStr, FontFamily = font, FontStyle = typeface.Style, FontWeight = typeface.Weight, });
+
+                // If this is the first of the new typefaces, this typeface is selected in the list
+                if (fontTypeList.List.Items.Count == 1)
+                {
+                    fontTypeList.SelectFromString(typefaceStr);
+                }
             }
         }
     }

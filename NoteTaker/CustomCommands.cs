@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace NoteTaker
 {
+    /// <summary>
+    /// Custom command setup
+    /// </summary>
     public static class CustomCommands
     {
         // NEW WINDOW Command
