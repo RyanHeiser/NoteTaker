@@ -174,6 +174,7 @@ public partial class MainWindow : Window
     private void FontDialogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
         FontDialog fontDialog = new FontDialog();
+        fontDialog.Owner = this;
         if (fontDialog.ShowDialog() == true)
         {
             textEditor.FontFamily = fontDialog.Font;
@@ -367,6 +368,7 @@ public partial class MainWindow : Window
     private Boolean UnsavedPrompt()
     {
         UnsavedDialog unsavedDialog = new UnsavedDialog(FileName);
+        unsavedDialog.Owner = this;
         if (unsavedDialog.ShowDialog() == true)
         {
             if (unsavedDialog.Save)
