@@ -5,6 +5,13 @@
              Startup="Application_Startup"
              Exit="Application_Exit">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/AppDictionary.xaml" />
+                <ResourceDictionary Source="/Resources/MenuItemDictionary.xaml" />
+                <ResourceDictionary Source="/Resources/MenuDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
         
     </Application.Resources>
 </Application>

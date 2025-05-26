@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:NoteTaker"
         mc:Ignorable="d"
         Closing="Window_Closing"
+        Background="{StaticResource DarkBackground}"
         Title="Untitled - NoteTaker" Height="550" Width="1000">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
@@ -21,9 +22,10 @@
         <CommandBinding Command="local:CustomCommands.ZoomOut" CanExecute="ZoomOutCommand_CanExecute" Executed="ZoomOutCommand_Executed" />
         <CommandBinding Command="local:CustomCommands.DefaultZoom" CanExecute="DefaultZoomCommand_CanExecute" Executed="DefaultZoomCommand_Executed" />
     </Window.CommandBindings>
-    <DockPanel Margin="10">
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
+    
+    <DockPanel Margin="15 10 15 10">
+        <Menu Style="{DynamicResource Menu}" DockPanel.Dock="Top" Background="{StaticResource DarkBackground}" TextElement.Foreground="{StaticResource TextColor}">
+            <MenuItem Style="{DynamicResource MenuItem}" Header="_File">
                 <MenuItem Command="ApplicationCommands.New" />
                 <MenuItem Command="local:CustomCommands.NewWindow" />
                 <MenuItem Command="ApplicationCommands.Open" />
@@ -32,7 +34,7 @@
                 <Separator />
                 <MenuItem Command="local:CustomCommands.Exit" />
             </MenuItem>
-            <MenuItem Header="_Edit">
+            <MenuItem Style="{DynamicResource MenuItem}" Header="_Edit">
                 <MenuItem Command="Undo" />
                 <MenuItem Command="Redo" />
                 <Separator />
@@ -42,17 +44,17 @@
                 <Separator />
                 <MenuItem Command="SelectAll" />
             </MenuItem>
-            <MenuItem Header="_Format">
+            <MenuItem Style="{DynamicResource MenuItem}" Header="_Format">
                 <MenuItem Command="local:CustomCommands.TextWrapping" IsCheckable="True" />
                 <MenuItem Command="local:CustomCommands.FontDialog" />
             </MenuItem>
-            <MenuItem Header="_View">
+            <MenuItem Style="{DynamicResource MenuItem}" Header="_View">
                 <MenuItem Command="local:CustomCommands.ZoomIn" />
                 <MenuItem Command="local:CustomCommands.ZoomOut" />
                 <MenuItem Command="local:CustomCommands.DefaultZoom" />
             </MenuItem>
         </Menu>
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar DockPanel.Dock="Bottom" Background="{StaticResource DarkBackground}" TextElement.Foreground="{StaticResource TextColor}">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -71,11 +73,11 @@
                 <TextBlock Name="cursorPosition" Text="Line 1, Column 1" />
             </StatusBarItem>
             <Separator Grid.Column="1" />
-            <StatusBarItem Grid.Column="2">
+            <StatusBarItem Padding="10 0 0 0" Grid.Column="2">
                 <TextBlock Name="charCount" Text="Characters: 0" />
             </StatusBarItem>
             <Separator Grid.Column="3" />
-            <StatusBarItem Grid.Column="4">
+            <StatusBarItem Padding="10 0 0 0" Grid.Column="4">
                 <TextBlock Text="Zoom" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="5">
@@ -88,17 +90,22 @@
                  SelectionChanged="TextEditor_SelectionChanged" 
                  TextChanged="TextEditor_TextChanged"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto" 
-                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 Background="{StaticResource LightBackground}"
+                 TextElement.Foreground="{StaticResource TextColor}"
+                 BorderThickness="0"
+                 Padding="5"
+                 Margin="0 5 0 5">
             <TextBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Command="Undo" />
-                    <MenuItem Command="Redo" />
+                <ContextMenu Style="{DynamicResource Menu}">
+                    <MenuItem Style="{DynamicResource MenuItem}" Command="Undo" />
+                    <MenuItem Style="{DynamicResource MenuItem}" Command="Redo" />
                     <Separator />
-                    <MenuItem Command="Cut" />
-                    <MenuItem Command="Copy" />
-                    <MenuItem Command="Paste" />
+                    <MenuItem Style="{DynamicResource MenuItem}" Command="Cut" />
+                    <MenuItem Style="{DynamicResource MenuItem}" Command="Copy" />
+                    <MenuItem Style="{DynamicResource MenuItem}" Command="Paste" />
                     <Separator />
-                    <MenuItem Command="SelectAll" />
+                    <MenuItem Style="{DynamicResource MenuItem}" Command="SelectAll" />
                 </ContextMenu>
             </TextBox.ContextMenu>
         </TextBox>
