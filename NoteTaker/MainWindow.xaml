@@ -86,16 +86,13 @@
                 <ComboBox Name="zoomBox" Text="100%" Width="75" IsEditable="True" IsTextSearchEnabled="False" MaxDropDownHeight="100" PreviewTextInput="ZoomBox_PreviewTextInput" TextBoxBase.TextChanged="ZoomBox_TextChanged" LostFocus="ZoomBox_LostFocus" KeyDown="ZoomBox_KeyDown" />
             </StatusBarItem>
         </StatusBar>
-        <TextBox Name="textEditor" 
+        <TextBox Style="{DynamicResource TextEditor}" Name="textEditor" 
                  FontSize="16"
                  AcceptsReturn="True" 
                  SelectionChanged="TextEditor_SelectionChanged" 
                  TextChanged="TextEditor_TextChanged"
                  ScrollViewer.HorizontalScrollBarVisibility="Auto" 
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 Background="{StaticResource LightBackground}"
-                 TextElement.Foreground="{StaticResource TextColor}"
-                 BorderThickness="0"
                  Padding="5"
                  Margin="0 5 0 5">
             <TextBox.ContextMenu>
