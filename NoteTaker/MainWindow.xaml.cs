@@ -108,11 +108,7 @@ public partial class MainWindow : Window
         openFileDialog.Filter = "Text files (*txt)|*txt|All files (*.*)|*.*";
         if (openFileDialog.ShowDialog() == true)
         {
-            textEditor.Text = File.ReadAllText(openFileDialog.FileName);
-            FilePath = openFileDialog.FileName;
-            FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
-            Saved = true;
-            Title = FileName + " - NoteTaker";
+            ReadFromFile(openFileDialog.FileName);
         }
     }
 
@@ -321,7 +317,15 @@ public partial class MainWindow : Window
             textEditor.FontSize = NonZoomFontSize * zoom;
             this.zoom = zoom;
         }
-        
+    }
+
+    public void ReadFromFile(string fileName)
+    {
+        textEditor.Text = File.ReadAllText(fileName);
+        FilePath = fileName;
+        FileName = FilePath.Substring(FilePath.LastIndexOf('\\') + 1);
+        Saved = true;
+        Title = FileName + " - NoteTaker";
     }
 
     // Saves current text in editor to the saved file path. If none then calls SaveAs
