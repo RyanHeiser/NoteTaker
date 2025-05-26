@@ -28,7 +28,7 @@ public partial class App : Application
         wnd.textEditor.Focus();
     }
 
-    // Saves font settings on exit
+    // Saves settings on exit
     private void Application_Exit(object sender, ExitEventArgs e)
     {
         NoteTaker.Properties.Settings.Default.Save();

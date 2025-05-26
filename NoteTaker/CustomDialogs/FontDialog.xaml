@@ -6,6 +6,8 @@
         xmlns:uc="clr-namespace:NoteTaker.CustomControls"
         xmlns:local="clr-namespace:NoteTaker.CustomDialogs"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource DarkBackground}"
         Title="Font" Height="500" Width="500">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
