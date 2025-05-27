@@ -10,7 +10,7 @@
         Closing="Window_Closing"
         Background="{StaticResource DarkBackground}"
         WindowStartupLocation="CenterScreen"
-
+        Icon="/Assets/Icon/NoteTaker.ico"
         Title="Untitled - NoteTaker" Height="550" Width="1000">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed" />
