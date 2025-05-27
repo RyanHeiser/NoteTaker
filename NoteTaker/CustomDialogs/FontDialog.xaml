@@ -11,8 +11,8 @@
         Title="Font" Height="500" Width="500">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Name="applyButton" IsDefault="True" Click="ApplyButton_Click" Height="30" Width="50" Margin="5">Apply</Button>
-            <Button Name="cancelButton" IsCancel="True" Height="30" Width="50" Margin="5">Cancel</Button>
+            <Button Style="{DynamicResource Button}" Name="applyButton" IsDefault="True" Click="ApplyButton_Click" Height="30" Width="50" Margin="5">Apply</Button>
+            <Button Style="{DynamicResource Button}" Name="cancelButton" IsCancel="True" Height="30" Width="50" Margin="5">Cancel</Button>
         </StackPanel>
         <Grid Margin="10">
             <Grid.RowDefinitions>

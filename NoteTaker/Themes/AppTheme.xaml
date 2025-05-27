@@ -4,6 +4,7 @@
     <SolidColorBrush x:Key="DarkBackground" Color="#272537" />
     <SolidColorBrush x:Key="LightBackground" Color="#36334d" />
     <SolidColorBrush x:Key="Trim" Color="#161426" />
+    <SolidColorBrush x:Key="Highlight" Color="#453d85" />
     <SolidColorBrush x:Key="TextColor" Color="White" />
 
 </ResourceDictionary>

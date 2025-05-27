@@ -10,9 +10,9 @@
     <DockPanel>
         <TextBlock Margin="5 5 5 5" FontSize="14" Foreground="{StaticResource TextColor}" Name="promptText" DockPanel.Dock="Top">Do you want to save changes to</TextBlock>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Width="100" Height="30" Margin="5" Name="SaveButton" IsDefault="True" Click="Save_Click">_Save</Button>
-            <Button Width="100" Height="30" Margin="5" Name="DontSaveButton" Click="DontSave_Click">_Don't Save</Button>
-            <Button Width="100" Height="30" Margin="5" Name="CancelButton" IsCancel="True" Click="Cancel_Click">_Cancel</Button>
+            <Button Style="{DynamicResource Button}" Width="100" Height="30" Margin="5" Name="SaveButton" IsDefault="True" Click="Save_Click">_Save</Button>
+            <Button Style="{DynamicResource Button}" Width="100" Height="30" Margin="5" Name="DontSaveButton" Click="DontSave_Click">_Don't Save</Button>
+            <Button Style="{DynamicResource Button}" Width="100" Height="30" Margin="5" Name="CancelButton" IsCancel="True" Click="Cancel_Click">_Cancel</Button>
         </StackPanel>
     </DockPanel>
 </Window>
