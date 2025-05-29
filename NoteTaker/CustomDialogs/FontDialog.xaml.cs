@@ -85,9 +85,7 @@ namespace NoteTaker.CustomDialogs
             FamilyTypeface typeface = f.FamilyTypefaces[Properties.Settings.Default.TypefaceIndex];
             Typeface = typeface;
             string typefaceStr = typeface.Weight.ToString() + " " + typeface.Style.ToString();
-            if (typefaceStr == "Normal Normal")
-                typefaceStr = "Normal";
-
+            typefaceStr = TypefaceToString(typefaceStr);
             fontTypeList.SelectFromString(typefaceStr);
 
             // Select font size from list and set Size field
@@ -107,8 +105,7 @@ namespace NoteTaker.CustomDialogs
             foreach (FamilyTypeface typeface in font.FamilyTypefaces)
             {
                 string typefaceStr = typeface.Weight.ToString() + " " + typeface.Style.ToString();
-                if (typefaceStr == "Normal Normal")
-                    typefaceStr = "Normal";
+                typefaceStr = TypefaceToString(typefaceStr);
 
                 fontTypeList.List.Items.Add(new ListViewItem { Content = typefaceStr, FontFamily = font, FontStyle = typeface.Style, FontWeight = typeface.Weight, });
 
@@ -118,6 +115,14 @@ namespace NoteTaker.CustomDialogs
                     fontTypeList.SelectFromString(typefaceStr);
                 }
             }
+        }
+
+        private string TypefaceToString(string typeface)
+        {
+            if (typeface.Contains("Normal") && typeface.Length > "Normal".Length)
+                typeface = typeface.Remove(typeface.IndexOf("Normal"), "Normal".Length).Trim();
+
+            return typeface;
         }
     }
 }
