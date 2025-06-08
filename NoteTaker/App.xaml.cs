@@ -23,6 +23,7 @@ public partial class App : Application
         wnd.textEditor.FontWeight = fontFamily.FamilyTypefaces[typefaceIndex].Weight;
         wnd.NonZoomFontSize = fontSize;
         wnd.Zoom(1.0);
+        wnd.UpdateStatusBar();
 
         // Set text editor to text in file if file is opened with NoteTaker
         if (e.Args.Length == 1)

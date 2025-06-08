@@ -81,6 +81,7 @@ public partial class MainWindow : Window
         newWindow.textEditor.FontWeight = this.textEditor.FontWeight;
         newWindow.NonZoomFontSize = this.NonZoomFontSize;
         newWindow.Zoom(1.0);
+        newWindow.UpdateStatusBar();
         
 
         newWindow.Show();
@@ -273,17 +274,10 @@ public partial class MainWindow : Window
 
     /* OTHER EVENT HANDLERS */
 
-    // Updates StatusBar when changes are made to the text editor
+    // Updates status bar when text editor is changed
     private void TextEditor_SelectionChanged(object sender, RoutedEventArgs e)
     {
-        int row = textEditor.GetLineIndexFromCharacterIndex(textEditor.CaretIndex);
-        int col = textEditor.CaretIndex - textEditor.GetCharacterIndexFromLineIndex(row);
-        cursorPosition.Text = "Line " + (row + 1) + ", Column " + (col + 1);
-
-        // charCount = char index at beginning of last line + length of last line - (lineCount - 1) * 2
-        // subtracting the line count removes new line characters from the character count
-        charCount.Text = "Characters: " + (textEditor.GetCharacterIndexFromLineIndex(textEditor.LineCount - 1) 
-            + textEditor.GetLineLength(textEditor.LineCount - 1) - (textEditor.LineCount - 1) * 2);
+        UpdateStatusBar();
     }
 
     // Updates window title to represent if changes have been saved
@@ -403,6 +397,34 @@ public partial class MainWindow : Window
         File.WriteAllText(FilePath, textEditor.Text);
         Saved = true;
         UpdateTitleSavedIndicator();
+    }
+
+    // Updates StatusBar
+    public void UpdateStatusBar()
+    {
+        int row = textEditor.GetLineIndexFromCharacterIndex(textEditor.CaretIndex);
+        int col = textEditor.CaretIndex - textEditor.GetCharacterIndexFromLineIndex(row);
+        if (textEditor.LineCount > 0)
+        {
+            cursorPosition.Text = "Line " + (row + 1) + ", Column " + (col + 1);
+        } else
+        {
+            cursorPosition.Text = "Line 1, Column 1";
+        }
+
+
+            // charCount = char index at beginning of last line + length of last line - (lineCount - 1) * 2
+            // subtracting the line count removes new line characters from the character count
+            charCount.Text = "Characters: ";
+        if (textEditor.LineCount > 0)
+        {
+          charCount.Text += textEditor.GetCharacterIndexFromLineIndex(textEditor.LineCount - 1) 
+                + textEditor.GetLineLength(textEditor.LineCount - 1) - ((textEditor.LineCount - 1) * 2);
+        } else
+        {
+            charCount.Text += "0";
+        }
+        
     }
 
 }
